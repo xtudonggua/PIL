@@ -13,9 +13,8 @@ string.byte(s, [pos]), 字符串s的第pos位置转化成整数，默认是1。s
 string.format(...) 格式化输出
 
 string.find(s, pattern, [pos])
-	s目标串，pattern模式串，pos查找起始位置，搜索匹配指定的模式的串
-	成功返回i，j匹配的起止位置，失败返回nil，通常与string.sub结合使用。
+  s目标串，pattern模式串，pos查找起始位置，搜索匹配指定的模式的串
+  成功返回i，j匹配的起止位置，失败返回nil，通常与string.sub结合使用。
 
 string.gsub(s, pattern, repl, [n])
-	替换
-	未完待续
+  未完待续
