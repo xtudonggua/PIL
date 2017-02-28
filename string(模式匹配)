@@ -1,1 +1,5 @@
-
+string库
+string.len(s) 返回字符串s的长度
+string.rep(s, n) 返回重复n次字符s, 比如string.req('a', 2^10)返回1kb bytes的字符串
+string.lower(s) 转成小写  string.upper(s)转成大写
+string.sub(s, i, j) 从s中截取第i个到第j个之间的串。注：索引从1开始，-1代表最后一个，-2代表倒数第二个
