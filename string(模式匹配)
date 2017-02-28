@@ -9,7 +9,7 @@ string.sub(s, i, j) 从s中截取第i个到第j个之间的串
 string.char(97) --> 'a' 数字转字符串   
 string.byte(s, [pos]), 字符串s的第pos位置转化成整数，默认是1。string.byte("abc", 1) -->97
 
--- 以下接口结合通常结合模式匹配用
+-- 以下接口在写模式匹配时详细说明
 string.format(...) 格式化输出
 
 string.find(s, pattern, [pos])
@@ -17,34 +17,4 @@ string.find(s, pattern, [pos])
   成功返回i，j匹配的起止位置，失败返回nil，通常与string.sub结合使用。
 
 string.gsub(s, pattern, repl, [n])
-  每个匹配的字符串替换成指定的字符串repl，返回替换后的字符串和替换次数
-  若repl是function，则用匹配到的字符串做参数调用function；若repl是table，则用匹配到的字符串做key查找table
-
-string.match(s, pattern, [pos]) 匹配字符串，与find类似。不同的是返回匹配到的字符串
-
-string.gmatch(s, pattern)
-  返回一个迭代器，每次迭代返回匹配到的字符串
-  s = "hello world from Lua"
-  for w in string.gmatch(s, "%a+") do
-      print(w)    --连续输出每个单词
-  end
-  
-
-模式匹配
-支持的字符类：
- .  任意字符 
- %a  字母 
- %c  控制字符
- %d  数字
- %l  小写字母
- %p  标点字符
- %s  空白符
- %u  大写字母
- %w  字母和数字
- %x  十六进制数字
- %z  代表0的字符
- 注：字符大写形式表示小写所代表的集合的补集
- 
- 支持的特殊字符：
- ( ) . % + - * ? [ ^ $
- 未完待续
+  未完待续
