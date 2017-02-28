@@ -1,5 +1,20 @@
 string库
+1. string库中所有的字符索引从前往后是1,2,...;从后往前是-1,-2,...
+2. string库中所有的function都不会直接操作字符串，而是返回一个结果
+
 string.len(s) 返回字符串s的长度
-string.rep(s, n) 返回重复n次字符s, 比如string.req('a', 2^10)返回1kb bytes的字符串
+string.rep(s, n) 将s拷贝n份，并连接起来，返回
 string.lower(s) 转成小写  string.upper(s)转成大写
-string.sub(s, i, j) 从s中截取第i个到第j个之间的串。注：索引从1开始，-1代表最后一个，-2代表倒数第二个
+string.sub(s, i, j) 从s中截取第i个到第j个之间的串
+string.char(97) --> 'a' 数字转字符串   
+string.byte(s, [pos]), 字符串s的第pos位置转化成整数，默认是1。string.byte("abc", 1) -->97
+
+-- 以下接口在写模式匹配时详细说明
+string.format(...) 格式化输出
+
+string.find(s, pattern, [pos])
+  s目标串，pattern模式串，pos查找起始位置，搜索匹配指定的模式的串
+  成功返回i，j匹配的起止位置，失败返回nil，通常与string.sub结合使用。
+
+string.gsub(s, pattern, repl, [n])
+  未完待续
