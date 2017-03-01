@@ -1,6 +1,6 @@
 string库
 1. string库中所有的字符索引从前往后是1,2,...;从后往前是-1,-2,...
-2. string库中所有的function都不会直接操作字符串，而是返回一个结果
+2. string库中所有的function都不会直接操作源字符串，而是返回一个新的字符串
 
 string.len(s) 返回字符串s的长度
 string.rep(s, n) 将s拷贝n份，并连接起来，返回
@@ -9,12 +9,72 @@ string.sub(s, i, j) 从s中截取第i个到第j个之间的串
 string.char(97) --> 'a' 数字转字符串   
 string.byte(s, [pos]), 字符串s的第pos位置转化成整数，默认是1。string.byte("abc", 1) -->97
 
--- 以下接口在写模式匹配时详细说明
+-- 以下接口通常结合模式匹配处理
 string.format(...) 格式化输出
 
 string.find(s, pattern, [pos])
-  s目标串，pattern模式串，pos查找起始位置，搜索匹配指定的模式的串
-  成功返回i，j匹配的起止位置，失败返回nil，通常与string.sub结合使用。
+	s目标串，pattern模式串，pos查找起始位置，搜索匹配指定的模式的串
+	成功返回i，j匹配的起止位置，失败返回nil，通常与string.sub结合使用。
 
 string.gsub(s, pattern, repl, [n])
-  未完待续
+	字符串替换。将每个匹配的字符串替换成repl。返回替换后的字符串和匹配次数
+	若repl是function，则用匹配到的字符串作参数调用repl；
+	若repl是table，则用字符串作key查找table
+
+string.match(s, pattern, [pos])
+	查找字符串，与find类似，不同的是不是返回索引位置，而是返回的字符串
+
+string.gmatch(s, pattern, [pos])
+	返回一个迭代器，每一项是匹配到的字符串
+	local s = "hello world from lua!"
+	for v in string.gmatch(s, "%a+") do
+		print(v)
+	end
+
+
+模式匹配
+lua支持的所有字符：
+	.	任意字符
+	%a 	字母
+	%c 	控制字符
+	%d  数字
+	%l  小写字母
+	%p  标点字符
+	%s 	空白符
+	%u  大写字母
+	%w  字母和数字
+	%x	十六进制数字
+	%z	代表0的字符
+注：大写形式代表小写形式的集合的补集
+
+lua的特殊字符：
+( ) . % + - * ? [ ^ $
+'%'	 转义字符，比如'%.'代表'.'，转移字符只有在模式串中才有作用。
+'[]' 方括号之间可以构建自己的字符集合，比如"[abcd]"
+'-'  连接符表示2个字符之间的范围，比如"[0-7]"代表"[01234567]"
+'^'	 放在'[]'里面表示补集，其他地方表示匹配字符串开头
+'$'	 匹配字符串结尾
+'()' 用于模式捕获，把需要捕获的模式括起来
+
+'+'	 匹配前一字符1次或多次
+'*'	 匹配前一字符0次或多次，最长匹配
+'-'	 匹配前一字符0次或多次，最短匹配
+'?'	 匹配前一字符0次或1次
+
+示例：
+test = "int x; /* x */	int y; /* y */"
+print(string.gsub(test, "/%*.*%*/", "<COMMENT>"))		--> int x; <COMMENT>	-- 最长匹配
+print(string.gsub(test, "/%*.-%*/", "<COMMENT>"))		--> int x; <COMMENT> int y; <COMMENT>	-- 最短匹配
+
+"[+-]?%d+"	匹配一个整数
+
+test = "name = lua"
+_, _, key, value = string.find(test, "(%a+)%s*=%s*(%a+)")
+print(key,	value)  	--> name lua
+
+local s = "\\command{some text}"
+print(string.gsub(s, "\\(%a+){(.+)}", "<%1>%2</%1>"))	-->	<command>some text</command> 1
+
+-- 去掉首尾空白
+local s = "     aaa bbb ccc ddd   "
+print(string.gsub(s, "^%s*(.-)%s*$", "%1"))		--> aaa bbb ccc ddd 1
