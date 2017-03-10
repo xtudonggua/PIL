@@ -1,5 +1,7 @@
 
 #include <stdio.h>
+#include <string.h>
+
 #include "lua.h"
 #include "lualib.h"
 #include "lauxlib.h"
@@ -97,10 +99,13 @@ int test_iter2() {
 	if (!lua_istable(L, -1))
 		luaL_error(L, "t is not table!!!");
 	lua_pushnil(L);
-	while(lua_next(L, -2) != 0) {
+	while (lua_next(L, -2) != 0) {
 		const char *t_key = lua_typename(L, lua_type(L, -2));
 		const char *t_value = lua_typename(L, lua_type(L, -1));
 		printf("%s-%s\n", t_key, t_value);
+		if (strcmp(t_key, "string") == 0 && strcmp(t_value, "number") == 0) {
+			printf("key = %s,	value = %d\n",	lua_tostring(L, -2),	(int)lua_tonumber(L, -1));
+		}
 		lua_pop(L, 1);
 	}
 }
