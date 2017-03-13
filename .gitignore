@@ -1,0 +1,4 @@
+*.o
+CAPI/c/mylib.so
+*.out
+CAPI/c/main
